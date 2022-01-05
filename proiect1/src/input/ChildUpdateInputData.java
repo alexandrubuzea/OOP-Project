@@ -18,13 +18,13 @@ public class ChildUpdateInputData {
     }
 
     @JsonProperty("niceScore")
-    private double niceScore;
+    private Double niceScore;
 
-    public double getNiceScore() {
+    public Double getNiceScore() {
         return niceScore;
     }
 
-    public void setNiceScore(double niceScore) {
+    public void setNiceScore(Double niceScore) {
         this.niceScore = niceScore;
     }
 
