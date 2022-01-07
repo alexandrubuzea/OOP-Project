@@ -1,5 +1,7 @@
 package entities;
 
+import averageScore.ScoreStrategy;
+import averageScore.ScoreStrategyFactory;
 import enums.AgeCategory;
 import enums.Category;
 import enums.Cities;
@@ -88,5 +90,11 @@ public class Child {
         }
 
         this.addNewPreferences(update.getNewPreferences());
+    }
+
+    public double calculateAverageScore() {
+        ScoreStrategyFactory factory = ScoreStrategyFactory.getScoreStrategyFactory();
+        ScoreStrategy strategy = factory.createScoreStrategy(this.getAgeCategory());
+        return strategy.applyStrategy(this);
     }
 }

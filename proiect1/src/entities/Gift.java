@@ -27,4 +27,10 @@ public class Gift {
         this.price = gift.getPrice();
         this.category = gift.getCategory();
     }
+
+    public Gift(Gift gift) {
+        this.name = gift.name;
+        this.category = gift.category;
+        this.price = gift.getPrice();
+    }
 }

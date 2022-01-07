@@ -2,6 +2,7 @@ package output;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OutputData {
@@ -16,5 +17,7 @@ public class OutputData {
         this.rounds = rounds;
     }
 
-    public OutputData() { }
+    public OutputData() {
+        rounds = new ArrayList<>();
+    }
 }

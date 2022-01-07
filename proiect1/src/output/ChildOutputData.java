@@ -1,10 +1,14 @@
 package output;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import database.Database;
 import entities.Child;
 import enums.Category;
 import enums.Cities;
+import roundStatus.ChildStatus;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChildOutputData {
@@ -116,5 +120,19 @@ public class ChildOutputData {
 
     public void setGifts(List<GiftOutputData> gifts) {
         this.gifts = gifts;
+    }
+
+    public ChildOutputData(ChildStatus status) {
+        Child child = Database.getDatabase().getChildren().get(status.getId());
+        this.age = child.getAge();
+        this.gifts = new ArrayList<>(status.getGifts().stream().map(GiftOutputData::new).toList());
+        this.id = child.getId();
+        this.assignedBudget = status.getAssignedBudget();
+        this.lastName = child.getLastName();
+        this.firstName = child.getFirstName();
+        this.city = child.getCity();
+        this.preferences = new ArrayList<>(child.getGiftsPreferences());
+        this.averageScore = status.getAverageScore();
+        this.niceScoreHistory = new ArrayList<>(child.getNiceScores());
     }
 }

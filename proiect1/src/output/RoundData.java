@@ -1,7 +1,9 @@
 package output;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import roundStatus.Round;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RoundData {
@@ -16,5 +18,7 @@ public class RoundData {
         this.children = children;
     }
 
-    public RoundData() { }
+    public RoundData(Round round) {
+        this.children = new ArrayList<>(round.getGlobalStatus().values().stream().map(ChildOutputData::new).toList());
+    }
 }

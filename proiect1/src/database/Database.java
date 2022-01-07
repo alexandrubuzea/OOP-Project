@@ -86,6 +86,12 @@ public class Database {
     }
 
     public void addNewChildren(Map<Integer, Child> newChildren) {
+        for (Map.Entry<Integer, Child> entry : newChildren.entrySet()) {
+            if (entry.getValue().getAge() > 18) {
+                newChildren.remove(entry.getKey());
+            }
+        }
+
         database.children.putAll(newChildren);
     }
 
@@ -95,16 +101,39 @@ public class Database {
 
     public void applyChildrenUpdates(List<ChildUpdate> childrenUpdates) {
         for (ChildUpdate update : childrenUpdates) {
+            if (!database.children.containsKey(update.getId())) {
+                continue;
+            }
+
             database.children.get(update.getId()).applyChange(update);
+        }
+    }
+
+    public void incrementAge() {
+        for (Child child : database.children.values()) {
+            child.incrementAge();
+        }
+    }
+
+    public void removeAdults() {
+        List<Integer> ids = database.children.keySet().stream().toList();
+        for (int id : ids) {
+            if (database.children.get(id).getAge() > 18) {
+                database.children.remove(id);
+            }
         }
     }
 
     public void applyChange(Change change) {
         Database database = Database.getDatabase();
 
+        database.incrementAge();
+        database.removeAdults();
+
+        database.applyChildrenUpdates(change.getUpdates());
+
         database.addNewGifts(change.getNewGifts());
         database.addNewChildren(change.getNewChildren());
         database.updateBudget(change.getNewBudget());
-        database.applyChildrenUpdates(change.getUpdates());
     }
 }
