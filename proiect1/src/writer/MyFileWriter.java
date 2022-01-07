@@ -1,6 +1,7 @@
 package writer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import output.OutputData;
 
 import java.io.File;
@@ -19,13 +20,14 @@ public class MyFileWriter {
     public void writeJSONFile(OutputData output) {
         File file = new File(filename);
 
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectWriter myWriter = new ObjectMapper()
+                .writer()
+                .withDefaultPrettyPrinter();
 
         try {
-            mapper.writeValue(file, output);
+            myWriter.writeValue(file, output);
         } catch (Exception e) {
             System.err.println("Something wrong when writing");
-            // System.exit(1);
         }
     }
 }

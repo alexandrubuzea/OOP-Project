@@ -35,6 +35,7 @@ public class TestSolver {
         OutputData output = new OutputData();
 
         // TODO: runda 0
+        database.removeAdults();
         Round round = new Round();
         round.calculateAverageScores();
         round.calculateAssignedBudgets();

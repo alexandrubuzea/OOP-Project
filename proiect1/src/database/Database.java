@@ -87,12 +87,10 @@ public class Database {
 
     public void addNewChildren(Map<Integer, Child> newChildren) {
         for (Map.Entry<Integer, Child> entry : newChildren.entrySet()) {
-            if (entry.getValue().getAge() > 18) {
-                newChildren.remove(entry.getKey());
+            if (entry.getValue().getAge() <= 18) {
+                database.children.put(entry.getKey(), entry.getValue());
             }
         }
-
-        database.children.putAll(newChildren);
     }
 
     public void updateBudget(double newBudget) {

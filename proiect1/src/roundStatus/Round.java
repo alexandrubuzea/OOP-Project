@@ -47,14 +47,15 @@ public class Round {
         for (Child child : database.getChildren().values()) {
             double availableBudget = this.globalStatus.get(child.getId()).getAssignedBudget();
             for (Category category : child.getGiftsPreferences()) {
-                List<Gift> availableGifts = new ArrayList<>(database.getGifts().get(category));
-                if (availableGifts.isEmpty()) {
+                if (!database.getGifts().containsKey(category)) {
                     continue;
                 }
 
+                List<Gift> availableGifts = new ArrayList<>(database.getGifts().get(category));
+
                 availableGifts.sort(Comparator.comparingDouble(Gift::getPrice));
                 if (availableGifts.get(0).getPrice() > availableBudget) {
-                    break;
+                    continue;
                 }
 
                 this.globalStatus.get(child.getId()).getGifts().add(availableGifts.get(0));

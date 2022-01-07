@@ -11,7 +11,7 @@ public enum AgeCategory {
     public static AgeCategory getAgeCategory(int age) {
         if (age < 5) {
             return BABY;
-        } else if (age < 13){
+        } else if (age < 12){
             return KID;
         } else if (age < 19) {
             return TEEN;

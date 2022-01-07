@@ -63,6 +63,8 @@ public class Child {
         }
 
         List<Category> newPreferences = new ArrayList<>();
+
+        toAdd = new ArrayList<>(toAdd.stream().distinct().toList());
         newPreferences.addAll(toAdd);
         newPreferences.addAll(this.giftsPreferences);
 
@@ -76,6 +78,7 @@ public class Child {
         this.age = child.getAge();
         this.city = child.getCity();
         this.giftsPreferences = child.getGiftsPreferences();
+        this.giftsPreferences = new ArrayList<>(this.giftsPreferences.stream().distinct().toList());
         this.niceScores = new ArrayList<>();
         this.niceScores.add(child.getNiceScore());
     }
