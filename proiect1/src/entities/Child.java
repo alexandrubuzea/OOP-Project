@@ -1,5 +1,6 @@
 package entities;
 
+import enums.AgeCategory;
 import enums.Category;
 import enums.Cities;
 import input.ChildInputData;
@@ -20,13 +21,19 @@ public class Child {
         return firstName;
     }
 
+    private final int id;
+
+    public int getId() {
+        return id;
+    }
+
     private int age;
 
     public int getAge() {
         return age;
     }
 
-    private void incrementAge() {
+    public void incrementAge() {
         ++age;
     }
 
@@ -63,10 +70,23 @@ public class Child {
     public Child(ChildInputData child) {
         this.lastName = child.getLastName();
         this.firstName = child.getFirstName();
+        this.id = child.getId();
         this.age = child.getAge();
         this.city = child.getCity();
         this.giftsPreferences = child.getGiftsPreferences();
         this.niceScores = new ArrayList<>();
         this.niceScores.add(child.getNiceScore());
+    }
+
+    public AgeCategory getAgeCategory() {
+        return AgeCategory.getAgeCategory(this.age);
+    }
+
+    public void applyChange(ChildUpdate update) {
+        if (update.getNiceScore() != null) {
+            this.niceScores.add(update.getNiceScore());
+        }
+
+        this.addNewPreferences(update.getNewPreferences());
     }
 }

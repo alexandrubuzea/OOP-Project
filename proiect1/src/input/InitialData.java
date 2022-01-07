@@ -1,7 +1,6 @@
 package input;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 public class InitialData {

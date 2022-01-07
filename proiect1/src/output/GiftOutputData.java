@@ -1,6 +1,7 @@
 package output;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import entities.Gift;
 import enums.Category;
 
 public class GiftOutputData {
@@ -35,5 +36,11 @@ public class GiftOutputData {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public GiftOutputData(Gift gift) {
+        this.category = gift.getCategory();
+        this.name = gift.getName();
+        this.price = gift.getPrice();
     }
 }
