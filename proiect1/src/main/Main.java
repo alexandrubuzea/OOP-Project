@@ -17,12 +17,15 @@ public final class Main {
      *          the arguments used to call the main method
      */
     public static void main(final String[] args) {
+        // create one instance of test solver
         TestSolver solver = new TestSolver();
 
-        for (int i = 1; i <= Constants.TESTS_NUMBER; ++i ) {
+        // solve each test
+        for (int i = 1; i <= Constants.TESTS_NUMBER; ++i) {
             solver.solveTest(i);
         }
 
+        // calculate the score
         Checker.calculateScore();
     }
 }
