@@ -1,0 +1,66 @@
+Project made by -> Buzea Alexandru-Mihai-Iulian
+Group: 321CAb
+
+Project name: Let's help Santa !
+
+    ------------------------ INTRODUCTION ------------------------
+
+    In my Object Oriented Programming course, I had to implement a centralized
+system that helps Santa Claus spread the gifts throughout the country. He also
+has an outstanding algorithm, in such a way that he gives children gifts based
+on their average score (which is essentially a measure of how nice they were
+this year and in the past years), as a fraction out of the total budget he has.
+For each age category, he has a way of calculating the average score:
+    - for BABY (0-4 years) -> averageScore = 10;
+    - for KID (5-11 years) -> averageScore = arithmetic mean of all niceScores;
+    - for TEEN (12-18 years) -> averageScore = weighted mean;
+    - for YOUNG ADULT ( >18 years) -> averageScore = 0;
+
+    The application runs for a number of years (given in the input file by
+the numberOfYears field).
+    ------------------------ INPUT/OUTPUT ------------------------
+
+    My input and output files were JSON files. I've done the parsing and
+writing JSON files using Jackson package, in this way: I made a set of input
+classes (you can see them in src/input package) and a set of output classes
+(src/output package) with the exact same fields as the JSON input/output files.
+I created similar classes as those which I used in the application flow for I/O
+process, such as ChildInputData (or ChildOutputData), GiftInputData (and
+GiftOutputData), InputData (which contains basically all the information in the
+JSON input file) and OutputData (which contains all the information in the JSON
+output data).
+
+    ------------------- DESIGN PATTERNS USED ---------------------
+
+    In my project I used Singleton pattern (for the database and the strategy
+factory - I felt that the best approach would have been to use Singleton
+pattern also for the factory, because two different factory instances are no
+different, so it would have been an useless memory usage), Strategy pattern
+(for the calculation of the average score of a child depending on its age
+category) and Factory pattern (together with the Strategy pattern, I created
+a factory of strategies).
+    I also used a very specific syntax for the Visitor pattern, although I have
+not implemented the two interfaces (Visitable and Visitor). In my case, the
+Visitor interface would have been the ScoreStrategy interface, but the
+Visitable interface would have been implemented only by the Child class, so we
+do not have the double dispatch, which is specific to the Visitor pattern (maybe
+if we will have parents or adults receiving gifts in the future, there will be
+a very good place for such a pattern as Visitor :) ).
+
+    -------------------- OOP CONCEPTS USED -----------------------
+
+    The Object-Oriented Programming I used were:
+    + Encapsulation - all my fields from all classes are private
+    + Polymorphism - I have used interfaces and abstract methods
+    + Data abstraction - while using abstract methods and generic
+strategies.
+
+    ------------------------ FEEDBACK ---------------------------
+
+    I very much enjoyed working at this project (first part of it...) and
+I hope that you will appreciate all the effort I've done trying to have a more
+modular approach than that from my first OOP homework. The project was
+interesting and it had a lot of features. I tried to implement everything more
+efficiently than my first thought (for example, there are pretty few places in
+my code where I would try to find a significant improvement), especially by
+the use of maps (yes, as you maybe notices, #wealllovemaps).
