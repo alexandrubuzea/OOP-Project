@@ -12,7 +12,7 @@ public class AdultScoreStrategy implements ScoreStrategy {
 
     /**
      * The implementation of the abstract method existing in the ScoreStrategy interface.
-     * @param child
+     * @param child the child to which the strategy must be applied
      * @return a double value which represents the average score for our child instance given
      * its age category. (0.0 for all young adults)
      */

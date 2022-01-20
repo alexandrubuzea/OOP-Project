@@ -74,6 +74,28 @@ public class GiftInputData {
     }
 
     /**
+     * The quantity of this gift in santa's deposit
+     */
+    @JsonProperty("quantity")
+    private int quantity;
+
+    /**
+     * A getter for the quantity field
+     * @return the desired quantity
+     */
+    public int getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * A setter for the quantity
+     * @param quantity the new quantity
+     */
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    /**
      * A default constructor for checkstyle.
      */
     public GiftInputData() { }

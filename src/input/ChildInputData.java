@@ -3,6 +3,7 @@ package input;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import enums.Category;
 import enums.Cities;
+import enums.ElvesType;
 
 import java.util.List;
 
@@ -163,6 +164,51 @@ public class ChildInputData {
      */
     public void setGiftsPreferences(final List<Category> giftsPreferences) {
         this.giftsPreferences = giftsPreferences;
+    }
+
+    /**
+     * The elf field for the child
+     */
+    @JsonProperty("elf")
+    private ElvesType elf;
+
+    /**
+     * A getter for the elf field
+     * @return the corresponding elf
+     */
+    public ElvesType getElf() {
+        return elf;
+    }
+
+    /**
+     * A setter for the elf field
+     * @param elf the new type of elf.
+     */
+    public void setElf(ElvesType elf) {
+        this.elf = elf;
+    }
+
+    /**
+     * The nice score bonus field for the child (a value from 0 to 100 specifying the
+     * percent bonus)
+     */
+    @JsonProperty("niceScoreBonus")
+    private Double niceScoreBonus;
+
+    /**
+     * A getter for the nice score bonus field
+     * @return the desired bonus
+     */
+    public double getNiceScoreBonus() {
+        return niceScoreBonus;
+    }
+
+    /**
+     * A setter for the nice score bonus
+     * @param niceScoreBonus the new bonus
+     */
+    public void setNiceScoreBonus(double niceScoreBonus) {
+        this.niceScoreBonus = niceScoreBonus;
     }
 
     /**

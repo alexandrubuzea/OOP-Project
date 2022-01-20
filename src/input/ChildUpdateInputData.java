@@ -2,6 +2,7 @@ package input;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import enums.Category;
+import enums.ElvesType;
 
 import java.util.List;
 
@@ -75,6 +76,27 @@ public class ChildUpdateInputData {
      */
     public void setPreferences(final List<Category> preferences) {
         this.preferences = preferences;
+    }
+
+    /**
+     * The new elf to be given to the child
+     */
+    private ElvesType newElf;
+
+    /**
+     * A getter for the new elf field
+     * @return the new elf
+     */
+    public ElvesType getNewElf() {
+        return newElf;
+    }
+
+    /**
+     * A setter for the new eld field.
+     * @param newElf the new elf
+     */
+    public void setNewElf(ElvesType newElf) {
+        this.newElf = newElf;
     }
 
     /**

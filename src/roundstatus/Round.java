@@ -6,11 +6,7 @@ import entities.Gift;
 import enums.Category;
 import utils.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.LinkedHashMap;
-import java.util.Comparator;
+import java.util.*;
 
 /**
  * A class which is used to retain the changes and statuses during one round.

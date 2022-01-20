@@ -11,7 +11,7 @@ public class KidScoreStrategy implements ScoreStrategy {
 
     /**
      * The implementation of the abstract method existing in the ScoreStrategy interface.
-     * @param child
+     * @param child the kid to which the strategy must be applied
      * @return a double value which represents the average score for our child instance given
      * its age category. (which is the arithmetic mean of all his niceScores: it matters if
      * the child has been bad in the past, isn't it ?)

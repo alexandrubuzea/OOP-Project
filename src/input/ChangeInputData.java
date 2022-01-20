@@ -1,6 +1,7 @@
 package input;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import enums.CityStrategyEnum;
 
 import java.util.List;
 
@@ -95,6 +96,28 @@ public class ChangeInputData {
      */
     public void setUpdates(final List<ChildUpdateInputData> updates) {
         this.updates = updates;
+    }
+
+    /**
+     * The used strategy for this year
+     */
+    @JsonProperty("strategy")
+    private CityStrategyEnum strategy;
+
+    /**
+     * A getter for the strategy field
+     * @return the used strategy
+     */
+    public CityStrategyEnum getStrategy() {
+        return strategy;
+    }
+
+    /**
+     * A setter for the strategy field
+     * @param strategy the new strategy to be applied (used)
+     */
+    public void setStrategy(CityStrategyEnum strategy) {
+        this.strategy = strategy;
     }
 
     /**

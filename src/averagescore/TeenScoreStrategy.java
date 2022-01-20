@@ -12,7 +12,7 @@ public class TeenScoreStrategy implements ScoreStrategy {
 
     /**
      * The implementation of the abstract method existing in the ScoreStrategy interface.
-     * @param child
+     * @param child the teen to which the strategy must be applied
      * @return a double value which represents the average score for our child instance given
      * its age category. (the arithmetic weighted mean of all his niceScores - the last niceScores
      * are more relevant.)
