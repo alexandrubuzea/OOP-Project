@@ -6,14 +6,15 @@ import entities.Child;
 import entities.ChildUpdate;
 import entities.Gift;
 import enums.Category;
+import enums.CityStrategyEnum;
 import input.ChildInputData;
 import input.GiftInputData;
 import input.InputData;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * A class which represents the santa's database. For our project the database is unique, so we
@@ -87,13 +88,13 @@ public final class Database {
      * (by grouping the gifts from the same category in a collection, which is the value of the map
      * entry).
      */
-    private final Map<Category, List<Gift>> gifts;
+    private final Map<Category, Map<Gift, Integer>> gifts;
 
     /**
      * A getter for our gifts field.
      * @return the desired field.
      */
-    public Map<Category, List<Gift>> getGifts() {
+    public Map<Category, Map<Gift, Integer>> getGifts() {
         return gifts;
     }
 
@@ -111,6 +112,27 @@ public final class Database {
     }
 
     /**
+     * The strategy used in present for gift assignment
+     */
+    private CityStrategyEnum strategy;
+
+    /**
+     * A getter for the strategy field
+     * @return the current strategy used
+     */
+    public CityStrategyEnum getStrategy() {
+        return strategy;
+    }
+
+    /**
+     * A setter for the strategy field
+     * @param strategy the new strategy to be used
+     */
+    public void setStrategy(CityStrategyEnum strategy) {
+        this.strategy = strategy;
+    }
+
+    /**
      * The private constructor (specific to the Singleton Pattern) which uses the previously
      * given input.
      */
@@ -123,7 +145,8 @@ public final class Database {
 
         // populating the child register
         for (ChildInputData child : Database.input.getInitialData().getChildrenInputData()) {
-            this.children.put(child.getId(), new Child(child));
+            this.children.put(child.getId(), new Child.ChildBuilder(child).niceScoreBonus(child.
+                    getNiceScoreBonus()).build());
         }
 
         // creating a map for the gift register
@@ -132,11 +155,13 @@ public final class Database {
         // populating the gift register
         for (GiftInputData gift : Database.input.getInitialData().getGifts()) {
             if (!this.gifts.containsKey(gift.getCategory())) {
-                this.gifts.put(gift.getCategory(), new ArrayList<>());
+                this.gifts.put(gift.getCategory(), new LinkedHashMap<>());
             }
 
-            this.gifts.get(gift.getCategory()).add(new Gift(gift));
+            this.gifts.get(gift.getCategory()).put(new Gift(gift), gift.getQuantity());
         }
+
+        this.strategy = CityStrategyEnum.ID;
     }
 
     /**
@@ -144,15 +169,23 @@ public final class Database {
      * update)
      * @param newGifts - a list containing the new gifts that must be added.
      */
-    public void addNewGifts(final List<Gift> newGifts) {
-        for (Gift gift : newGifts) {
+    public void addNewGifts(final Map<Gift, Integer> newGifts) {
+        for (Gift gift : newGifts.keySet()) {
             // if the gift to add is from a new category
             if (!database.gifts.containsKey(gift.getCategory())) {
-                database.gifts.put(gift.getCategory(), new ArrayList<>());
+                database.gifts.put(gift.getCategory(), new LinkedHashMap<>());
             }
 
-            // add the gift into the database.
-            database.gifts.get(gift.getCategory()).add(gift);
+            // if the gift is not in the database.
+            if (!database.gifts.get(gift.getCategory()).containsKey(gift)) {
+                database.gifts.get(gift.getCategory()).put(new Gift(gift), newGifts.get(gift));
+                continue;
+            }
+
+            // add the gift into the database (the quantity increases).
+            int oldQuantity = database.gifts.get(gift.getCategory()).get(gift);
+            int newQuantity = oldQuantity + newGifts.get(gift);
+            database.gifts.get(gift.getCategory()).replace(gift, oldQuantity, newQuantity);
         }
     }
 
@@ -211,7 +244,7 @@ public final class Database {
      */
     public void removeAdults() {
         // getting the id's of the children existing in the database.
-        List<Integer> ids = database.children.keySet().stream().toList();
+        List<Integer> ids = database.children.keySet().stream().collect(Collectors.toList());
 
         // removing each child which has become adult.
         for (int id : ids) {
@@ -238,5 +271,6 @@ public final class Database {
         database.addNewGifts(change.getNewGifts());
         database.addNewChildren(change.getNewChildren());
         database.updateBudget(change.getNewBudget());
+        database.setStrategy(change.getStrategy());
     }
 }

@@ -7,6 +7,7 @@ import enums.Category;
 import utils.Utils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A class which is used to retain the changes and statuses during one round.
@@ -67,7 +68,7 @@ public class Round {
         // get the sum of average scores in order to determine budgetUnit
         // our heart tells us to use streams here, isn't it ? <3
         double sumOfAverageScores = Utils.getSum(statuses.stream()
-                .map(ChildStatus::getAverageScore).toList());
+                .map(ChildStatus::getAverageScore).collect(Collectors.toList()));
 
         // determining the budgetUnit
         double budgetUnit = database.getSantaBudget() / sumOfAverageScores;
@@ -98,12 +99,13 @@ public class Round {
                 }
 
                 // get the possible gifts
-                List<Gift> availableGifts = new ArrayList<>(database.getGifts().get(category));
+                List<Gift> availableGifts = new ArrayList<>(database.getGifts().get(category)
+                        .keySet());
 
                 // get the cheapest gift - we need to sort the gifts
                 availableGifts.sort(Comparator.comparingDouble(Gift::getPrice));
 
-                // if we do not have enough money, go to next preferrence, maybe we find something
+                // if we do not have enough money, go to next preference, maybe we find something
                 // cheaper
                 if (availableGifts.get(0).getPrice() > availableBudget) {
                     continue;

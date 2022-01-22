@@ -5,6 +5,7 @@ import roundstatus.Round;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A class used for output data (for numberOfYears + 1 rounds)
@@ -38,6 +39,6 @@ public class RoundData {
      */
     public RoundData(final Round round) {
         this.children = new ArrayList<>(round.getGlobalStatus().values().stream()
-                        .map(ChildOutputData::new).toList());
+                        .map(ChildOutputData::new).collect(Collectors.toList()));
     }
 }

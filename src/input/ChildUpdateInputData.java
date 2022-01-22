@@ -81,6 +81,7 @@ public class ChildUpdateInputData {
     /**
      * The new elf to be given to the child
      */
+    @JsonProperty("elf")
     private ElvesType newElf;
 
     /**

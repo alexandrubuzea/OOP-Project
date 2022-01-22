@@ -12,6 +12,7 @@ import writer.MyFileWriter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A class used to solve one test at one time.
@@ -46,9 +47,9 @@ public class TestSolver {
         // the number of rounds (one round per year)
         int numberOfYears = input.getNumberOfYears();
 
-        // the changes foar each round starting from 1 to numberOfYears
+        // the changes for each round starting from 1 to numberOfYears
         List<Change> changes = new ArrayList<>(input.getChanges()
-                .stream().map(Change::new).toList());
+                .stream().map(Change::new).collect(Collectors.toList()));
 
         // creating an entity for the output data
         OutputData output = new OutputData();

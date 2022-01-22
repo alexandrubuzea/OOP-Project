@@ -46,7 +46,6 @@ public class MyFileParser {
             input = mapper.readValue(file, InputData.class);
         } catch (Exception e) {
             System.err.println("Exception met while parsing");
-            System.exit(-1);
         }
 
         return input;

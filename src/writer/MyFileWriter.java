@@ -33,7 +33,7 @@ public class MyFileWriter {
             myWriter.writeValue(file, output);
         } catch (Exception e) {
             System.err.println("Something wrong when writing");
-            System.exit(-1);
+            // System.exit(-1);
         }
     }
 }

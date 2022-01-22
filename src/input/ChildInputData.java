@@ -199,7 +199,7 @@ public class ChildInputData {
      * A getter for the nice score bonus field
      * @return the desired bonus
      */
-    public double getNiceScoreBonus() {
+    public Double getNiceScoreBonus() {
         return niceScoreBonus;
     }
 
@@ -207,7 +207,7 @@ public class ChildInputData {
      * A setter for the nice score bonus
      * @param niceScoreBonus the new bonus
      */
-    public void setNiceScoreBonus(double niceScoreBonus) {
+    public void setNiceScoreBonus(Double niceScoreBonus) {
         this.niceScoreBonus = niceScoreBonus;
     }
 

@@ -5,10 +5,12 @@ import averagescore.ScoreStrategyFactory;
 import enums.AgeCategory;
 import enums.Category;
 import enums.Cities;
+import enums.ElvesType;
 import input.ChildInputData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A class used to retain the informations about a child (such as age, name, city etc) and that
@@ -118,6 +120,83 @@ public class Child {
     }
 
     /**
+     * The bonus score for the gift assignment
+     */
+    private final double niceScoreBonus;
+
+    /**
+     * A getter for the nice score bonus
+     * @return a double value representing this child's nice score bonus
+     */
+    public double getNiceScoreBonus() {
+        return niceScoreBonus;
+    }
+
+    /**
+     * The corresponding elf of the child
+     */
+    private ElvesType elf;
+
+    /**
+     * A getter for the elf field
+     * @return the corresponding elf
+     */
+    public ElvesType getElf() {
+        return elf;
+    }
+
+    /**
+     * A setter for the elf field
+     * @param elf the corresponding elf
+     */
+    public void setElf(ElvesType elf) {
+        this.elf = elf;
+    }
+
+    public static class ChildBuilder {
+        private final String lastname;
+        private final String firstname;
+        private final int id;
+        private final int age;
+        private final Cities city;
+        private final List<Double> niceScores;
+        private List<Category> giftsPreferences;
+        private double niceScoreBonus = 0;
+        private ElvesType elf;
+
+        public ChildBuilder(ChildInputData child) {
+            this.lastname = child.getLastName();
+            this.firstname = child.getFirstName();
+            this.id = child.getId();
+            this.age = child.getAge();
+            this.city = child.getCity();
+
+            this.niceScores = new ArrayList<>();
+            this.niceScores.add(child.getNiceScore());
+
+            this.giftsPreferences = child.getGiftsPreferences();
+
+            this.giftsPreferences = new ArrayList<>(this.giftsPreferences.stream()
+                    .distinct().collect(Collectors.toList()));
+
+            this.elf = child.getElf();
+        }
+
+        public ChildBuilder niceScoreBonus(Double score) {
+            if (score == null) {
+                niceScoreBonus = 0;
+                return this;
+            }
+
+            niceScoreBonus = score;
+            return this;
+        }
+
+        public Child build() {
+            return new Child(this);
+        }
+    }
+    /**
      * A method which is used to add new gift preferences in the preferences list of the
      * current child
      * @param toAdd a list containing the new gift preferences a child has.
@@ -127,33 +206,27 @@ public class Child {
             this.giftsPreferences.removeIf(category::equals);
         }
 
-        List<Category> newPreferences = new ArrayList<>();
-
         // remove duplicate values from the new preferences
-        newPreferences = new ArrayList<>(toAdd);
-        newPreferences = new ArrayList<>(newPreferences.stream().distinct().toList());
+        List<Category> newPreferences = new ArrayList<>(toAdd);
+        newPreferences = new ArrayList<>(newPreferences.stream().distinct().collect(Collectors.toList()));
         newPreferences.addAll(this.giftsPreferences);
 
         this.giftsPreferences = newPreferences;
     }
 
     /**
-     * A constructor which builds a Child instance based on the input given (ChildInputData type)
-     * @param child which represents the input given.
+     * A constructor which builds a Child instance based on the builder instance given.
+     * @param builder which represents the instance of the internal class given (Builder pattern)
      */
-    public Child(final ChildInputData child) {
-        this.lastName = child.getLastName();
-        this.firstName = child.getFirstName();
-        this.id = child.getId();
-        this.age = child.getAge();
-        this.city = child.getCity();
-        this.giftsPreferences = child.getGiftsPreferences();
-
-        // remove duplicate values from the preferences list.
-        this.giftsPreferences = new ArrayList<>(this.giftsPreferences.stream()
-                .distinct().toList());
-        this.niceScores = new ArrayList<>();
-        this.niceScores.add(child.getNiceScore());
+    private Child(ChildBuilder builder) {
+        this.giftsPreferences = builder.giftsPreferences;
+        this.firstName = builder.firstname;
+        this.lastName = builder.lastname;
+        this.age = builder.age;
+        this.id = builder.id;
+        this.city = builder.city;
+        this.niceScores = builder.niceScores;
+        this.niceScoreBonus = builder.niceScoreBonus;
     }
 
     /**
@@ -175,17 +248,20 @@ public class Child {
         }
 
         this.addNewPreferences(update.getNewPreferences());
+        this.setElf(update.getNewElf());
     }
 
     /**
      * A method which calculates the average score for the current child using a suitable
      * strategy. The effective calculations will take place in the one of the score strategy
      * classes (very similar to Visitor pattern)
-     * @return a double vlue representing the average score of the child.
+     * @return a double value representing the average score of the child.
      */
     public double calculateAverageScore() {
         ScoreStrategyFactory factory = ScoreStrategyFactory.getScoreStrategyFactory();
         ScoreStrategy strategy = factory.createScoreStrategy(this.getAgeCategory());
-        return strategy.applyStrategy(this);
+        double averageScore = strategy.applyStrategy(this);
+        averageScore += averageScore * niceScoreBonus / 100;
+        return Double.min(averageScore, 10.0);
     }
 }

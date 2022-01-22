@@ -3,6 +3,8 @@ package entities;
 import enums.Category;
 import input.GiftInputData;
 
+import java.util.Objects;
+
 /**
  * A class which is used to model a gift from the santa database (and its relevant attributes,
  * such as name, price and category).
@@ -65,5 +67,19 @@ public class Gift {
         this.name = gift.name;
         this.category = gift.category;
         this.price = gift.getPrice();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Gift)) return false;
+        Gift gift = (Gift) o;
+        return Double.compare(gift.getPrice(), getPrice()) == 0 && Objects.equals(getName(),
+                gift.getName()) && getCategory() == gift.getCategory();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getPrice(), getCategory());
     }
 }

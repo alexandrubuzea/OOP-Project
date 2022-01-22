@@ -9,6 +9,7 @@ import roundstatus.ChildStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A class which stores the output data for a child in the database.
@@ -242,7 +243,7 @@ public class ChildOutputData {
     public ChildOutputData(final ChildStatus status) {
         Child child = Database.getDatabase().getChildren().get(status.getId());
         this.age = child.getAge();
-        this.gifts = new ArrayList<>(status.getGifts().stream().map(GiftOutputData::new).toList());
+        this.gifts = new ArrayList<>(status.getGifts().stream().map(GiftOutputData::new).collect(Collectors.toList()));
         this.id = child.getId();
         this.assignedBudget = status.getAssignedBudget();
         this.lastName = child.getLastName();

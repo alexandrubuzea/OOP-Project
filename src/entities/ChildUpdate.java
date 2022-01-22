@@ -1,6 +1,7 @@
 package entities;
 
 import enums.Category;
+import enums.ElvesType;
 import input.ChildUpdateInputData;
 
 import java.util.List;
@@ -52,6 +53,15 @@ public class ChildUpdate {
     }
 
     /**
+     * A new Elf to use for the next years
+     */
+    private final ElvesType newElf;
+
+    public ElvesType getNewElf() {
+        return newElf;
+    }
+
+    /**
      * A constructor which builds an entity based on the given input (ChildUpdateInputData type)
      * @param childUpdate the input used to create a new ChildUpdate entity.
      */
@@ -59,5 +69,6 @@ public class ChildUpdate {
         this.id = childUpdate.getId();
         this.niceScore = childUpdate.getNiceScore();
         this.newPreferences = childUpdate.getPreferences();
+        this.newElf = childUpdate.getNewElf();
     }
 }
