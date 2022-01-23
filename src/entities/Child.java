@@ -2,13 +2,16 @@ package entities;
 
 import averagescore.ScoreStrategy;
 import averagescore.ScoreStrategyFactory;
+import database.Database;
 import enums.AgeCategory;
 import enums.Category;
 import enums.Cities;
 import enums.ElvesType;
 import input.ChildInputData;
+import roundstatus.ChildStatus;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -227,6 +230,7 @@ public class Child {
         this.city = builder.city;
         this.niceScores = builder.niceScores;
         this.niceScoreBonus = builder.niceScoreBonus;
+        this.elf = builder.elf;
     }
 
     /**
@@ -263,5 +267,45 @@ public class Child {
         double averageScore = strategy.applyStrategy(this);
         averageScore += averageScore * niceScoreBonus / 100;
         return Double.min(averageScore, 10.0);
+    }
+
+    public void assignGifts(ChildStatus status) {
+        double availableBudget = status.getAssignedBudget();
+
+        Database database = Database.getDatabase();
+
+        for (Category category : this.getGiftsPreferences()) {
+            // if there is no gift in the preferred category, skip
+            if (!database.getGifts().containsKey(category)) {
+                continue;
+            }
+
+            // get the possible gifts
+            List<Gift> availableGifts = new ArrayList<>(database.getGifts().get(category)
+                    .keySet());
+
+            // get the cheapest gift - we need to sort the gifts
+            availableGifts.sort(Comparator.comparingDouble(Gift::getPrice));
+
+            // if we do not have enough money, go to next preference, maybe we find something
+            // cheaper
+            availableGifts.removeIf((gift) -> database.getGifts().get(category).get(gift) == 0);
+            if (availableGifts.isEmpty()) {
+                continue;
+            }
+            
+            Gift gift = availableGifts.get(0);
+            int quantity = database.getGifts().get(gift.getCategory()).get(gift);
+            if (gift.getPrice() > availableBudget || quantity == 0) {
+                continue;
+            }
+
+            // add the gift in the status gift list
+            status.getGifts().add(new Gift(gift));
+            database.getGifts().get(gift.getCategory()).replace(gift, quantity - 1);
+
+            // spend the amount of money required to buy the gift.
+            availableBudget -= gift.getPrice();
+        }
     }
 }

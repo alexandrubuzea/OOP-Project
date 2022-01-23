@@ -1,9 +1,14 @@
 package roundstatus;
 
 import database.Database;
+import elfstrategies.ElfStrategy;
+import elfstrategies.ElfStrategyFactory;
 import entities.Child;
 import entities.Gift;
 import enums.Category;
+import enums.ElvesType;
+import giftassignmentstrategies.GiftAssignmentStrategy;
+import giftassignmentstrategies.GiftAssignmentStrategyFactory;
 import utils.Utils;
 
 import java.util.*;
@@ -86,36 +91,29 @@ public class Round {
         // get a Database instance
         Database database = Database.getDatabase();
 
+        GiftAssignmentStrategyFactory assignmentStrategyFactory = GiftAssignmentStrategyFactory
+                .getFactory();
+        GiftAssignmentStrategy strategy = assignmentStrategyFactory.createStrategy(database.getStrategy());
+        List<Integer> ids = strategy.applyAssignmentStrategy(this);
+
+        ElfStrategyFactory elfStrategyFactory = ElfStrategyFactory.getElfStrategyFactory();
+
         // for each child in the database
-        for (Child child : database.getChildren().values()) {
-            // get the available budget
-            double availableBudget = this.globalStatus.get(child.getId()).getAssignedBudget();
+        for (Integer id : ids) {
+            if (!database.getChildren().get(id).getElf().equals(ElvesType.YELLOW)) {
+                ElfStrategy elfStrategy = elfStrategyFactory.createElfStrategy(database.
+                        getChildren().get(id).getElf());
+                elfStrategy.applyGiftStrategy(this.globalStatus.get(id));
+            }
 
-            // for each preferred category
-            for (Category category : child.getGiftsPreferences()) {
-                // if there is no gift in the preferred category, skip
-                if (!database.getGifts().containsKey(category)) {
-                    continue;
-                }
+            database.getChildren().get(id).assignGifts(this.globalStatus.get(id));
+        }
 
-                // get the possible gifts
-                List<Gift> availableGifts = new ArrayList<>(database.getGifts().get(category)
-                        .keySet());
-
-                // get the cheapest gift - we need to sort the gifts
-                availableGifts.sort(Comparator.comparingDouble(Gift::getPrice));
-
-                // if we do not have enough money, go to next preference, maybe we find something
-                // cheaper
-                if (availableGifts.get(0).getPrice() > availableBudget) {
-                    continue;
-                }
-
-                // add the gift in the status gift list
-                this.globalStatus.get(child.getId()).getGifts().add(availableGifts.get(0));
-
-                // spend the amount of money required to buy the gift.
-                availableBudget -= availableGifts.get(0).getPrice();
+        for (Integer id : ids) {
+            if (database.getChildren().get(id).getElf().equals(ElvesType.YELLOW)) {
+                ElfStrategy elfStrategy = elfStrategyFactory.createElfStrategy(database
+                        .getChildren().get(id).getElf());
+                elfStrategy.applyGiftStrategy(this.globalStatus.get(id));
             }
         }
     }

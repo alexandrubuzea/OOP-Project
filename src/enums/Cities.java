@@ -2,6 +2,9 @@ package enums;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Cities {
 
     @JsonProperty("Bucuresti")
@@ -38,5 +41,24 @@ public enum Cities {
 
     Cities(final String value) {
         this.value = value;
+    }
+
+    public static List<Cities> getCities() {
+        return new ArrayList<>(List.of(new Cities[]{
+                BUCURESTI,
+                CONSTANTA,
+                BUZAU,
+                TIMISOARA,
+                CLUJ,
+                IASI,
+                CRAIOVA,
+                BRASOV,
+                BRAILA,
+                ORADEA
+        }));
+    }
+
+    public String toString() {
+        return value;
     }
 }
