@@ -57,6 +57,10 @@ public class ChildUpdate {
      */
     private final ElvesType newElf;
 
+    /**
+     * A getter for the elf field
+     * @return the desired field.
+     */
     public ElvesType getNewElf() {
         return newElf;
     }

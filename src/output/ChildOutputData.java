@@ -243,7 +243,8 @@ public class ChildOutputData {
     public ChildOutputData(final ChildStatus status) {
         Child child = Database.getDatabase().getChildren().get(status.getId());
         this.age = child.getAge();
-        this.gifts = new ArrayList<>(status.getGifts().stream().map(GiftOutputData::new).collect(Collectors.toList()));
+        this.gifts = new ArrayList<>(status.getGifts().stream().map(GiftOutputData::new)
+                .collect(Collectors.toList()));
         this.id = child.getId();
         this.assignedBudget = status.getAssignedBudget();
         this.lastName = child.getLastName();

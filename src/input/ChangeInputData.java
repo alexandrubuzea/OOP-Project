@@ -116,7 +116,7 @@ public class ChangeInputData {
      * A setter for the strategy field
      * @param strategy the new strategy to be applied (used)
      */
-    public void setStrategy(CityStrategyEnum strategy) {
+    public void setStrategy(final CityStrategyEnum strategy) {
         this.strategy = strategy;
     }
 

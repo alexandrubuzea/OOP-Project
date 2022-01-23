@@ -2,6 +2,7 @@ package entities;
 
 import averagescore.ScoreStrategy;
 import averagescore.ScoreStrategyFactory;
+import common.Constants;
 import database.Database;
 import enums.AgeCategory;
 import enums.Category;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * has a number of useful methods in order to perform changes (such as finding out his age category
  * and add new gift preferences).
  */
-public class Child {
+public final class Child {
 
     /**
      * The last name of the child.
@@ -152,11 +153,16 @@ public class Child {
      * A setter for the elf field
      * @param elf the corresponding elf
      */
-    public void setElf(ElvesType elf) {
+    public void setElf(final ElvesType elf) {
         this.elf = elf;
     }
 
     public static class ChildBuilder {
+
+        /**
+         * The child features that will be used by the builder in order to
+         * create a Child instance
+         */
         private final String lastname;
         private final String firstname;
         private final int id;
@@ -167,7 +173,11 @@ public class Child {
         private double niceScoreBonus = 0;
         private ElvesType elf;
 
-        public ChildBuilder(ChildInputData child) {
+        /**
+         * A constructor for the builder instance using the input data
+         * @param child the given input
+         */
+        public ChildBuilder(final ChildInputData child) {
             this.lastname = child.getLastName();
             this.firstname = child.getFirstName();
             this.id = child.getId();
@@ -185,7 +195,14 @@ public class Child {
             this.elf = child.getElf();
         }
 
-        public ChildBuilder niceScoreBonus(Double score) {
+        /**
+         * A method which adds an optional feature (the nice score bonus) to the builder
+         * instance (it will be used later to add this feature to the Child instance, in
+         * the build method.
+         * @param score the desired bonus score
+         * @return
+         */
+        public ChildBuilder niceScoreBonus(final Double score) {
             if (score == null) {
                 niceScoreBonus = 0;
                 return this;
@@ -195,6 +212,11 @@ public class Child {
             return this;
         }
 
+        /**
+         * A method which finally builds a Child instance from a builder instance (it uses
+         * the private constructor)
+         * @return a new Child instance with the same fields as the current builder instance
+         */
         public Child build() {
             return new Child(this);
         }
@@ -211,7 +233,8 @@ public class Child {
 
         // remove duplicate values from the new preferences
         List<Category> newPreferences = new ArrayList<>(toAdd);
-        newPreferences = new ArrayList<>(newPreferences.stream().distinct().collect(Collectors.toList()));
+        newPreferences = new ArrayList<>(newPreferences.stream().distinct()
+                .collect(Collectors.toList()));
         newPreferences.addAll(this.giftsPreferences);
 
         this.giftsPreferences = newPreferences;
@@ -221,7 +244,7 @@ public class Child {
      * A constructor which builds a Child instance based on the builder instance given.
      * @param builder which represents the instance of the internal class given (Builder pattern)
      */
-    private Child(ChildBuilder builder) {
+    private Child(final ChildBuilder builder) {
         this.giftsPreferences = builder.giftsPreferences;
         this.firstName = builder.firstname;
         this.lastName = builder.lastname;
@@ -265,11 +288,16 @@ public class Child {
         ScoreStrategyFactory factory = ScoreStrategyFactory.getScoreStrategyFactory();
         ScoreStrategy strategy = factory.createScoreStrategy(this.getAgeCategory());
         double averageScore = strategy.applyStrategy(this);
-        averageScore += averageScore * niceScoreBonus / 100;
-        return Double.min(averageScore, 10.0);
+        averageScore += averageScore * niceScoreBonus / Constants.MAKE_PERCENT;
+        return Double.min(averageScore, Constants.MAX_NICE_SCORE);
     }
 
-    public void assignGifts(ChildStatus status) {
+    /**
+     * A method which uses the child's current status (nice score and budget) in order to
+     * assign him gifts
+     * @param status the status to be changed
+     */
+    public void assignGifts(final ChildStatus status) {
         double availableBudget = status.getAssignedBudget();
 
         Database database = Database.getDatabase();
@@ -287,8 +315,6 @@ public class Child {
             // get the cheapest gift - we need to sort the gifts
             availableGifts.sort(Comparator.comparingDouble(Gift::getPrice));
 
-            // if we do not have enough money, go to next preference, maybe we find something
-            // cheaper
             availableGifts.removeIf((gift) -> database.getGifts().get(category).get(gift) == 0);
             if (availableGifts.isEmpty()) {
                 continue;
@@ -296,7 +322,10 @@ public class Child {
 
             Gift gift = availableGifts.get(0);
             int quantity = database.getGifts().get(gift.getCategory()).get(gift);
-            if (gift.getPrice() > availableBudget || quantity == 0) {
+
+            // if we do not have enough money, go to next preference, maybe we find something
+            // cheaper
+            if (gift.getPrice() > availableBudget) {
                 continue;
             }
 

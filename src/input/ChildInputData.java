@@ -184,7 +184,7 @@ public class ChildInputData {
      * A setter for the elf field
      * @param elf the new type of elf.
      */
-    public void setElf(ElvesType elf) {
+    public void setElf(final ElvesType elf) {
         this.elf = elf;
     }
 
@@ -207,7 +207,7 @@ public class ChildInputData {
      * A setter for the nice score bonus
      * @param niceScoreBonus the new bonus
      */
-    public void setNiceScoreBonus(Double niceScoreBonus) {
+    public void setNiceScoreBonus(final Double niceScoreBonus) {
         this.niceScoreBonus = niceScoreBonus;
     }
 

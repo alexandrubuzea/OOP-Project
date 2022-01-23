@@ -6,13 +6,26 @@ import enums.Cities;
 import roundstatus.Round;
 import utils.Utils;
 
-import java.util.*;
 import java.util.stream.Collectors;
+
+import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Objects;
 
 public class CityGiftAssignmentStrategy implements GiftAssignmentStrategy {
 
+    /**
+     * A method which returns a list of sorted integers based on the city nice score (the mean
+     * of nice scores of all children living in that city). In case of equality, other criteria
+     * are applied: the children are sorted lexicographically after city name, then after their ID.
+     * @param round the round for which the strategy must be applied
+     * @return A sorted list containing the integers.
+     */
     @Override
-    public List<Integer> applyAssignmentStrategy(Round round) {
+    public List<Integer> applyAssignmentStrategy(final Round round) {
         Database database = Database.getDatabase();
 
         Map<Cities, Double> scores = new LinkedHashMap<>();

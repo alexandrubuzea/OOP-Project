@@ -91,7 +91,7 @@ public class GiftInputData {
      * A setter for the quantity
      * @param quantity the new quantity
      */
-    public void setQuantity(int quantity) {
+    public void setQuantity(final int quantity) {
         this.quantity = quantity;
     }
 

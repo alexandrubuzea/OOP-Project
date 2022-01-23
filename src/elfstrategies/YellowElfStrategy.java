@@ -9,10 +9,19 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * A class which performs a yellow elf strategy: for the child the yellow elf strategy is applied
+ * to, the child receives a gift (only if he hasn't received any gifts this year) and we have the
+ * cheapest gift in the database.
+ */
 public class YellowElfStrategy implements ElfStrategy {
 
+    /**
+     * A method which applies the yellow elf strategy to the child with the given status
+     * @param status the status of the child to which the strategy must be applied.
+     */
     @Override
-    public void applyGiftStrategy(ChildStatus status) {
+    public void applyGiftStrategy(final ChildStatus status) {
         Database database = Database.getDatabase();
         Child child = database.getChildren().get(status.getId());
 

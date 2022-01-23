@@ -43,6 +43,11 @@ public enum Cities {
         this.value = value;
     }
 
+    /**
+     * A static method which returns a list containing all the possible values of
+     * enum data type.
+     * @return the list of available cities.
+     */
     public static List<Cities> getCities() {
         return new ArrayList<>(List.of(new Cities[]{
                 BUCURESTI,
@@ -58,6 +63,10 @@ public enum Cities {
         }));
     }
 
+    /**
+     * A method which returns the string associated to the city (the name of the city)
+     * @return the name of the given city.
+     */
     public String toString() {
         return value;
     }

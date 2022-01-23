@@ -69,15 +69,34 @@ public class Gift {
         this.price = gift.getPrice();
     }
 
+    /**
+     * The equals method from Object class overriden in order to use hashmaps in a correct
+     * way. (added Javadoc only for checkstyle - I know it is not recommended to add Javadoc
+     * for the overriden methods).
+     * @param o the object to which the current instance compares to
+     * @return a boolean value representing the result of the comparison.
+     */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Gift)) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Gift)) {
+            return false;
+        }
         Gift gift = (Gift) o;
         return Double.compare(gift.getPrice(), getPrice()) == 0 && Objects.equals(getName(),
                 gift.getName()) && getCategory() == gift.getCategory();
     }
 
+    /**
+     * The hashCode method from Object class overriden in order to use hashmaps in a correct
+     * way. (added Javadoc only for checkstyle - I know it is not recommended to add Javadoc
+     * for the overriden methods).
+     * @return an integer value representing the value of the hashing function over the existing
+     * fields.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getName(), getPrice(), getCategory());

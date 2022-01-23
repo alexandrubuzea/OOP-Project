@@ -4,14 +4,17 @@ import database.Database;
 import elfstrategies.ElfStrategy;
 import elfstrategies.ElfStrategyFactory;
 import entities.Child;
-import entities.Gift;
-import enums.Category;
 import enums.ElvesType;
 import giftassignmentstrategies.GiftAssignmentStrategy;
 import giftassignmentstrategies.GiftAssignmentStrategyFactory;
 import utils.Utils;
 
-import java.util.*;
+import java.util.Map;
+import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.Comparator;
+
 import java.util.stream.Collectors;
 
 /**
@@ -93,7 +96,8 @@ public class Round {
 
         GiftAssignmentStrategyFactory assignmentStrategyFactory = GiftAssignmentStrategyFactory
                 .getFactory();
-        GiftAssignmentStrategy strategy = assignmentStrategyFactory.createStrategy(database.getStrategy());
+        GiftAssignmentStrategy strategy = assignmentStrategyFactory
+                .createStrategy(database.getStrategy());
         List<Integer> ids = strategy.applyAssignmentStrategy(this);
 
         ElfStrategyFactory elfStrategyFactory = ElfStrategyFactory.getElfStrategyFactory();

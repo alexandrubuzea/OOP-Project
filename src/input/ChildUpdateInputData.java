@@ -96,7 +96,7 @@ public class ChildUpdateInputData {
      * A setter for the new eld field.
      * @param newElf the new elf
      */
-    public void setNewElf(ElvesType newElf) {
+    public void setNewElf(final ElvesType newElf) {
         this.newElf = newElf;
     }
 

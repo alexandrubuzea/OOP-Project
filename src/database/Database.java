@@ -128,7 +128,7 @@ public final class Database {
      * A setter for the strategy field
      * @param strategy the new strategy to be used
      */
-    public void setStrategy(CityStrategyEnum strategy) {
+    public void setStrategy(final CityStrategyEnum strategy) {
         this.strategy = strategy;
     }
 
