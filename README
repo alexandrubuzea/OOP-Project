@@ -63,4 +63,57 @@ modular approach than that from my first OOP homework. The project was
 interesting and it had a lot of features. I tried to implement everything more
 efficiently than my first thought (for example, there are pretty few places in
 my code where I would try to find a significant improvement), especially by
-the use of maps (yes, as you maybe notices, #wealllovemaps).
+the use of maps (yes, as you maybe noticed, #wealllovemaps).
+
+---------------- What have I done in the second part ? ----------------------
+
+    In the second part of this Object-Oriented Programming project, I managed
+to further develop my code in order to include more realistic features, such
+as:
+
+    - in the first place, the exiting gifts in the Santa's deposit have a
+limited amount, named quantity (that is, if the child wants a gift from a
+certain category and the cheapest gift is not currently available, then the
+next cheapest gift will be assigned to the child)
+
+    - each child has an additional fictional character called elf, which can
+help him to gain a budget increase or (in opposite) to have a lower budget.
+I implemented these elves using strategies, and the available elves types are:
+
+        -> PINK elf: 30% increase in budget
+        -> BLACK elf: 30% decrease in budget
+        -> WHITE elf: no change in the assigned budget
+        -> YELLOW elf: assign a gift to those children which have not received
+        any gift yet, if the cheapest gift is available in Santa's deposit.
+
+    - I also build a Singleton Strategy Factory in order to create the elves
+strategies based on a child's helping elf type.
+
+    - The gifts were assigned in multiple ways, not only after ID. There were
+implemented other two ways of assigning gifts: assignments after nice score and
+after average nice score per city. In order to do that, I implemented another
+set of strategies and a factory for them. All my three factories are unique
+instances (singleton pattern).
+
+    In addition, I used the Builder design pattern in order to implement the
+optional nice score bonus.
+
+------------------------ FEEDBACK FOR SECOND PART --------------------------
+
+    It was very helpful that I had a very modular, approach that allowed me
+to develop my code quickly. For example, in order to implement nice score bonus
+assignment I changed only a few lines.
+    In order to implement the newly elf type, I added the corresponding field
+in the input classes and their corresponding Jackson annotation. The main
+contribution in this part were the two main packages I implemented for the gift
+assignment and the elves strategy, therefore the coding time was not so big I
+expected. Also, the debugging was much easier due to the modularization and
+use of OOP concepts.
+    I did not change the output part, therefore the actual changes were done in
+the flow of the program. I was really impressed to see that there is a number of
+classes I didn't changed from stage to stage, such as the Main, TestSolver,
+Parser, Writer, Utils, Database and output classes. Then, I made little to no
+changes in the entities and enums package, and I created two more packages in
+order to implement the extra strategies.
+    Finally, thank you for this project. It was really nice to learn how to
+write the code a more generic, scalable and easy to develop in the future code.
