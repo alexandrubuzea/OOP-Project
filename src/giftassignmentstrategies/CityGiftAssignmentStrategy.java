@@ -23,6 +23,11 @@ public class CityGiftAssignmentStrategy implements GiftAssignmentStrategy {
             List<Child> children = new ArrayList<>(database.getChildren().values());
             children.removeIf((child) -> !child.getCity().equals(city));
             children.sort(Comparator.comparingInt(Child::getId));
+            if (children.isEmpty()) {
+                scores.put(city, 0.0);
+                continue;
+            }
+
             scores.put(city, Utils.getMean(new ArrayList<>(children.stream()
                     .map((child) -> round.getGlobalStatus().get(child.getId()).getAverageScore())
                     .collect(Collectors.toList()))));
@@ -34,7 +39,7 @@ public class CityGiftAssignmentStrategy implements GiftAssignmentStrategy {
             Cities city1 = database.getChildren().get(o1).getCity();
             Cities city2 = database.getChildren().get(o2).getCity();
 
-            if (scores.get(city1) != scores.get(city2)) {
+            if (!Objects.equals(scores.get(city1), scores.get(city2))) {
                 return scores.get(city1) > scores.get(city2) ? -1 : 1;
             }
 

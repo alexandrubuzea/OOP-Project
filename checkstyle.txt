@@ -19,7 +19,6 @@ Starting audit...
 [ERROR] /home/alexandru/Desktop/POO/proiect1/./src/entities/Child.java:269:41: '10.0' is a magic number. [MagicNumber]
 [ERROR] /home/alexandru/Desktop/POO/proiect1/./src/entities/Child.java:272:5: Missing a Javadoc comment. [MissingJavadocMethod]
 [ERROR] /home/alexandru/Desktop/POO/proiect1/./src/entities/Child.java:272:29: Parameter status should be final. [FinalParameters]
-[ERROR] /home/alexandru/Desktop/POO/proiect1/./src/entities/Child.java:296: Line has trailing spaces. [RegexpSingleline]
 [ERROR] /home/alexandru/Desktop/POO/proiect1/./src/entities/Gift.java:72:5: Class 'Gift' looks like designed for extension (can be subclassed), but the method 'equals' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'Gift' final or making the method 'equals' static/final/abstract/empty, or adding allowed annotation for the method. [DesignForExtension]
 [ERROR] /home/alexandru/Desktop/POO/proiect1/./src/entities/Gift.java:73:27: Parameter o should be final. [FinalParameters]
 [ERROR] /home/alexandru/Desktop/POO/proiect1/./src/entities/Gift.java:74:9: 'if' construct must use '{}'s. [NeedBraces]
@@ -65,4 +64,4 @@ Starting audit...
 [ERROR] /home/alexandru/Desktop/POO/proiect1/./src/roundstatus/Round.java:14:17: Using the '.*' form of import should be avoided - java.util.*. [AvoidStarImport]
 [ERROR] /home/alexandru/Desktop/POO/proiect1/./src/roundstatus/Round.java:96: Line is longer than 100 characters (found 107). [LineLength]
 Audit done.
-Checkstyle ends with 65 errors.
+Checkstyle ends with 64 errors.

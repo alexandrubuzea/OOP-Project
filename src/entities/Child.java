@@ -293,7 +293,7 @@ public class Child {
             if (availableGifts.isEmpty()) {
                 continue;
             }
-            
+
             Gift gift = availableGifts.get(0);
             int quantity = database.getGifts().get(gift.getCategory()).get(gift);
             if (gift.getPrice() > availableBudget || quantity == 0) {
